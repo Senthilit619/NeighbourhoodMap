@@ -1,0 +1,61 @@
+html, body {
+ 	height: 100%;
+ 	margin: 0; 
+ 	padding: 0; 
+}
+
+#map{ 
+	height: 100%; 
+}
+
+#listview{
+	height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #353738;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 30px;
+}
+
+#heading
+{
+	height: 50px;
+	background-color: rgba(241,89,58,1);
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+.open-button
+{
+	position: absolute;
+	left: 0px;
+	top: 50px;
+	margin: 5px;
+}
+.close-button
+{
+	float: right;
+	margin-top: 10px;
+}
+
+.textbox
+{
+	opacity: 0.8;
+	color: #f1593a;
+	font-size: 20px;
+	width: 280px;
+	height: 40px;
+	margin-top: 5px;
+	margin-left: 5px;
+}
+
+.searchbox
+{
+	float: right;
+	margin-left: 5px;	
+}

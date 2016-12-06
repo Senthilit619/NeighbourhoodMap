@@ -1,0 +1,44 @@
+<html>
+ 	<head>
+ 		<meta charset="utf-8">
+ 		<meta name="viewport" content="width=device-width, initial-scale=1">
+ 		<link rel="stylesheet" type="text/css" href="style.css">
+ 	</head>
+ <body>
+   <div id="map"></div>
+   <!--Hamburger Icon to open the ListView-->
+   <img src="images/hamburger.png" width="30" height="30" class="open-button" onclick="openview()" style="cursor:pointer">
+   <!--The listview containing all the favourite places in the map and a search box--> 
+   <div id="listview">
+   		<!--Div for the heading of the div-->
+   		<div id="heading">
+   			<img src="images/close2.png" width="30" height="30" class="close-button" onclick="closeview()" style="cursor:pointer">
+   		</div>
+   		<!--Search box with the list-->
+   		<div id="features">
+   		   <input type="text" name="search" placeholder="Enter the area to search..." class="textbox">
+   		   <img src="images/search1.png" width="50px" height="50px" class="searchbox" style="cursor: pointer;" onclick="submit()">
+   		   <ul class="placelist" data-bind="foreach: locations">
+   		   	<li databind="text: title"></li>
+
+   		   </ul>
+   		</div>
+
+
+   </div>
+   <!-- Async call to the Google maps api-->
+   <script>
+   	function openview() {
+   		document.getElementById("listview").style.width = "350px";
+   	}
+   	function closeview() {
+   		document.getElementById("listview").style.width = "0";
+   	}
+   </script>
+
+   <script async src="js/knockout-3.4.1.js"></script>
+   <script src="js/script.js"></script>
+   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTWqTczhaT01yKIpp-qiRBM1-f3gBbF2w&v=3&callback=initMap">
+   </script>
+ </body>
+</html>
