@@ -21,8 +21,8 @@
          </div>
          <div id="list">
             <ul data-bind="foreach: locations">
-               <li data-bind="text: title">
-               </li>
+               <li data-bind="text: title, click: $parent.selectloc"></li>
+               <span data-bind="text: id"></span>
             </ul>
          </div>
    </div>
