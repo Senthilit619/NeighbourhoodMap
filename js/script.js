@@ -31,38 +31,71 @@ function initMap() {
 var ViewModel=function(){
         "use strict";
         var largeInfowindow = new google.maps.InfoWindow();
+        var bounds = new google.maps.LatLngBounds();
         var self = this;
         self.locations= ko.observableArray(favlocations);
+        self.searchterm = ko.observable('');
+        self.searchlocations = ko.observableArray([]);
+
         self.locations().forEach(function(loc){
-          var marker = new google.maps.Marker({
+            var marker = new google.maps.Marker({
             title:loc.title,
             position:loc.location,
             map:map
-          });
-          loc.marker=marker;
-          markers.push(marker);
-          //Add an event listener to open the Infowindow
-          marker.addListener('click', function() {
+            });
+            loc.marker=marker;
+            markers.push(marker);
+            //Add an event listener to open the Infowindow
+            marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
+          });
         });
-      });
-      //Function to execute when the user clicks the listview 
-      self.selectloc = function(loc){
-        loc.marker.setAnimation(google.maps.Animation.BOUNCE);
-        setTimeout(function () {
-            loc.marker.setAnimation(null);
-        }, 1000);
+        //Add the position to the bounds
+        for(var i=0;i<markers.length;i++) {
+            bounds.extend(markers[i].getPosition());
+        }
+        //Set the center of the map to the center of all the bounds 
+        map.setCenter(bounds.getCenter());
+        // Fit the bounds of all the markers
+        map.fitBounds(bounds);
+        //Search Function
+        self.searchfunction = ko.computed(function(){
+         var search = self.searchterm();
+         for (var i = 0; i < self.locations().length; i++) {
+            if (self.locations()[i].title.toLowerCase().indexOf(search)>=0) 
+                {
+                    self.locations()[i].updatelist(true);
+                    self.locations()[i].marker.setVisible(true);
+                }
+            else 
+                {
+                    self.locations()[i].updatelist(false);
+                    self.locations()[i].marker.setVisible(false);
+                }
+            }
+        });
       }
-}
+
+
+        //Function to execute when the user clicks the listview 
+        self.selectloc = function(loc){
+            loc.marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function () {
+            loc.marker.setAnimation(null);
+            }, 1400);
+          }
+
+
+
       // Function to open the InfoWindow onclick
       function populateInfoWindow(marker, infowindow) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(map, marker);
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick', function() {
+            infowindow.marker = marker;
+            infowindow.setContent('<div>' + marker.title + '</div>');
+            infowindow.open(map, marker);
+            // Make sure the marker property is cleared if the infowindow is closed.
+            infowindow.addListener('closeclick', function() {
             infowindow.marker = null;
           });
         }

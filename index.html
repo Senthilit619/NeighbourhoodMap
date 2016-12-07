@@ -16,13 +16,11 @@
          </div>
          <!--Search box with the list-->
          <div id="features">
-            <input type="text" name="search" placeholder="Enter the area to search..." class="textbox">
-            <img src="images/search1.png" width="50px" height="50px" class="searchbox" style="cursor: pointer;" onclick="submit()">
+            <input type="text" name="search" placeholder="Search" class="textbox" data-bind="textInput: searchterm">
          </div>
          <div id="list">
             <ul data-bind="foreach: locations">
-               <li data-bind="text: title, click: $parent.selectloc"></li>
-               <span data-bind="text: id"></span>
+               <li data-bind="text: title, click: selectloc, visible: updatelist"></li>
             </ul>
          </div>
    </div>
@@ -30,7 +28,7 @@
    <!-- Async call to the Google maps api-->
    <script>
       function openview() {
-         document.getElementById("listview").style.width = "380px";
+         document.getElementById("listview").style.width = "300px";
       }
       function closeview() {
          document.getElementById("listview").style.width = "0";
