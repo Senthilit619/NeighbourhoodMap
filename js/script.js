@@ -14,16 +14,31 @@
 // Global variables
 var map;
 var markers=[];
+var vm;
 function initMap() {
        map = new google.maps.Map(document.getElementById('map'),{
         center:{lat:10.957025,lng:78.066409},
         zoom:10,
         mapTypeControl: false
        }); 
+       //Instantiate ViewModel
+       vm = new ViewModel();
+       //Apply bindings
+       ko.applyBindings(vm);
   }
 var ViewModel=function(){
         "use strict";
         var self = this;
-   }
-ko.applyBindings(new ViewModel());
+        self.locations= ko.observableArray(favlocations);
+        self.locations().forEach(function(loc){
+          var marker = new google.maps.Marker({
+            title:loc.title,
+            position:loc.location,
+            map:map
+          });
+          loc.marker=marker;
+          markers.push(marker);
+        });
+      };
+
 
