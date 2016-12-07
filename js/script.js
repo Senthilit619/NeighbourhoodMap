@@ -35,7 +35,6 @@ var ViewModel=function(){
         var self = this;
         self.locations= ko.observableArray(favlocations);
         self.searchterm = ko.observable('');
-        self.searchlocations = ko.observableArray([]);
 
         self.locations().forEach(function(loc){
             var marker = new google.maps.Marker({
