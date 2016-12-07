@@ -15,7 +15,7 @@ html, body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #353738;
+    background-color: #313435;
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 30px;
@@ -24,7 +24,7 @@ html, body {
 #heading
 {
 	height: 50px;
-	background-color: rgba(241,89,58,1);
+	background-color:#f1593a;
 	position: relative;
 	top: 0;
 	left: 0;
@@ -58,4 +58,27 @@ html, body {
 {
 	float: right;
 	margin-left: 5px;	
+}
+
+ul
+{
+	padding-left:10px;
+}
+li
+{
+	color:#f1593a;
+	height: 35px;
+	width: 100%;
+	padding-top: 10px;
+	list-style: none;
+	font-size: 20px;
+	border: 1px solid black;
+	border-left: none;
+	border-right: none;
+}
+
+li:hover
+{
+	background-color: #181a1b;
+	cursor: pointer;
 }
