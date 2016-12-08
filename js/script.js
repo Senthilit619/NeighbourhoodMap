@@ -89,32 +89,67 @@ var ViewModel=function(){
         // Function to open the InfoWindow onclick
         function populateInfoWindow(marker, infowindow) {
           
+        if (infowindow.marker != marker) 
+          infowindow.marker = marker;
         var client_id = 'XX02XSETTBB01M0KZUF5SLTEWX5NG0M4401FCHWJZLLYWM15',
             client_secret = 'VXPOQENZXZ2QI2WCKGFBIOSBWK134ARVM05E2PB15A5XKAZI',
-            lat=marker.position.lat;
-            console.log(lat);
-            var lng=marker.position.lng;
-            console.log(lng);
-            var address, 
-            venue;
-            var url = 'https://api.foursquare.com/v2/venues/search?ll='+ lat + ',' + lng + '?client_id=' + client_id + '&client_secret=' + client_secret + '&v=20161208&m=foursquare';
+            lat=marker.position.lat(),
+            lng=marker.position.lng();
+            var pos = lat +','+ lng;
+            var url = 'https://api.foursquare.com/v2/venues/search?ll=' + pos + '&client_id=' + client_id + '&client_secret=' + client_secret + '&v=20161129&m=foursquare';
                 $.ajax({
                         method: 'GET',
                         url: url,
                         dataType: 'jsonp',
                         success: function (data) {
-                                var name = data.response.venues[0].name;
-                                if (data.response.location.address === undefined) {//if data is not found show this msg
-                                        address = "Sorry! The Address is Unavailable";
-                                } else {
-                                        address = data.response.location.address;
-                                }
-                        },
-                        error: function (data) {
-                                contentString = "Content Failed to Load Try Again!!!";
-                                getinfowindow(contentString);
-                        }
-                });
+                                  var name=data.response.venues[0].name;
+                                  var venue_id = data.response.venues[0].id;
+                                  var address = data.response.venues[0].location.address;
+                                  var counts = data.response.venues[0].stats.checkinsCount;
+                                  
+                                  //Second ajax request for fetching the photos.
+                                  //api.foursquare.com/v2/venues/43695300f964a5208c291fe3/photos?client_id=XX02XSETTBB01M0KZUF5SLTEWX5NG0M4401FCHWJZLLYWM15&client_secret=VXPOQENZXZ2QI2WCKGFBIOSBWK134ARVM05E2PB15A5XKAZI&v=20161208
+                                  var secondurl = 'https://api.foursquare.com/v2/venues/' + venue_id +'/photos?client_id=' + client_id + '&client_secret=' + client_secret + '&v=20161129';
+                                  $.ajax({
+                                          method: 'GET',
+                                          url: secondurl,
+                                          dataType: 'jsonp',
+                                          success: function(data){
+                                            //var prefix = data.response.photos.items[0].prefix;
+                                            //var suffix = data.response.photos.items[0].suffix;
+                                            var item = data.response.photos.items[0];
+                                            if(item==undefined)
+                                            { 
+                                              infowindow.setContent('<div><span id="name">' + name + '</span><br>Address:'+ address+'<br>Check-ins:'+ counts + '</div><div>No photos available for this location</div>');
+                                              infowindow.open(map, marker);
+                                              // Make sure the marker property is cleared if the infowindow is closed.
+                                              infowindow.addListener('closeclick', function() {
+                                              infowindow.marker = null;
+                                              });
+                                            }
+                                            else
+                                            {
+                                              var prefix = data.response.photos.items[0].prefix;
+                                              var suffix = data.response.photos.items[0].suffix;
+                                              var src = prefix + '100x100' +suffix;
+                                              infowindow.setContent('<div><span id="name">' + name + '</span><br>Address:'+ address+'<br>Check-ins:'+ counts + '</div><div>Photo:<br><img src="'+src+'"></div>');
+                                              infowindow.open(map, marker);
+                                              // Make sure the marker property is cleared if the infowindow is closed.
+                                              infowindow.addListener('closeclick', function() {
+                                              infowindow.marker = null;
+                                              });
+                                            }
+                                          },
+                                          error: function(){
+                                            infowindow.setContent('<div>Error Fetching Data</div>');
+                                          }
+                                      });
+                                    },
+                                    error: function (data) {
+                                       contentString = "Content Failed to Load Try Again!!!";
+                                       getinfowindow(contentString);
+                                    }
+                          });
         }
 
 

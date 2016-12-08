@@ -83,3 +83,9 @@ li:hover
 	background-color: #181a1b;
 	cursor: pointer;
 }
+
+#name
+{
+	font-size: 15px;
+	font-weight: bold;
+}
