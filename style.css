@@ -69,12 +69,13 @@ li
 	color:#f1593a;
 	height: 35px;
 	width: 100%;
-	padding-top: 10px;
+	padding-top: 5px;
 	list-style: none;
 	font-size: 20px;
 	border: 1px solid black;
 	border-left: none;
 	border-right: none;
+
 }
 
 li:hover

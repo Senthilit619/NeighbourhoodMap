@@ -14,9 +14,7 @@
 // Global variables
 var map;
 var markers=[];
-
 var vm;
-
 function initMap() {
        map = new google.maps.Map(document.getElementById('map'),{
         center:{lat:10.957025,lng:78.066409},
@@ -43,6 +41,8 @@ var ViewModel=function(){
             map:map
             });
             loc.marker=marker;
+            loc.updatelist = ko.observable(true);
+            loc.venue = ko.observable('venue');
             markers.push(marker);
             //Add an event listener to open the Infowindow
             marker.addListener('click', function() {
@@ -71,10 +71,10 @@ var ViewModel=function(){
                     self.locations()[i].updatelist(false);
                     self.locations()[i].marker.setVisible(false);
                 }
-            }
-        });
-      }
-
+              }
+          });
+    
+    }
 
         //Function to execute when the user clicks the listview 
         self.selectloc = function(loc){
@@ -86,18 +86,35 @@ var ViewModel=function(){
 
 
 
-      // Function to open the InfoWindow onclick
-      function populateInfoWindow(marker, infowindow) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-            infowindow.marker = marker;
-            infowindow.setContent('<div>' + marker.title + '</div>');
-            infowindow.open(map, marker);
-            // Make sure the marker property is cleared if the infowindow is closed.
-            infowindow.addListener('closeclick', function() {
-            infowindow.marker = null;
-          });
+        // Function to open the InfoWindow onclick
+        function populateInfoWindow(marker, infowindow) {
+          
+        var client_id = 'XX02XSETTBB01M0KZUF5SLTEWX5NG0M4401FCHWJZLLYWM15',
+            client_secret = 'VXPOQENZXZ2QI2WCKGFBIOSBWK134ARVM05E2PB15A5XKAZI',
+            lat=marker.position.lat;
+            console.log(lat);
+            var lng=marker.position.lng;
+            console.log(lng);
+            var address, 
+            venue;
+            var url = 'https://api.foursquare.com/v2/venues/search?ll='+ lat + ',' + lng + '?client_id=' + client_id + '&client_secret=' + client_secret + '&v=20161208&m=foursquare';
+                $.ajax({
+                        method: 'GET',
+                        url: url,
+                        dataType: 'jsonp',
+                        success: function (data) {
+                                var name = data.response.venues[0].name;
+                                if (data.response.location.address === undefined) {//if data is not found show this msg
+                                        address = "Sorry! The Address is Unavailable";
+                                } else {
+                                        address = data.response.location.address;
+                                }
+                        },
+                        error: function (data) {
+                                contentString = "Content Failed to Load Try Again!!!";
+                                getinfowindow(contentString);
+                        }
+                });
         }
-      }
 
 
