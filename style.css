@@ -21,8 +21,7 @@ html, body {
     padding-top: 30px;
 }
 
-#heading
-{
+#heading{
 	height: 50px;
 	background-color:#f1593a;
 	position: relative;
@@ -30,21 +29,18 @@ html, body {
 	left: 0;
 }
 
-.open-button
-{
+.open-button{
 	position: absolute;
 	left: 0px;
 	top: 50px;
 	margin: 5px;
 }
-.close-button
-{
+.close-button{
 	float: right;
 	margin-top: 10px;
 }
 
-.textbox
-{
+.textbox{
 	opacity: 0.8;
 	color: #f1593a;
 	font-size: 20px;
@@ -54,18 +50,16 @@ html, body {
 	margin-left: 5px;
 }
 
-.searchbox
-{
+.searchbox{
 	float: right;
 	margin-left: 5px;	
 }
 
-ul
-{
+ul{
 	padding-left:10px;
 }
-li
-{
+
+li{
 	color:#f1593a;
 	height: 35px;
 	width: 100%;
@@ -78,14 +72,12 @@ li
 
 }
 
-li:hover
-{
+li:hover{
 	background-color: #181a1b;
 	cursor: pointer;
 }
 
-#name
-{
+.bold{
 	font-size: 15px;
 	font-weight: bold;
 }

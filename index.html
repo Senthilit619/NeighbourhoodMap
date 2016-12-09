@@ -20,7 +20,7 @@
          </div>
          <div id="list">
             <ul data-bind="foreach: locations">
-               <li data-bind="text: title, click: selectloc, visible: updatelist"></li>
+               <li data-bind="text: title, click: populateInfoWindow, visible: updatelist"></li>
             </ul>
          </div>
    </div>
@@ -37,7 +37,7 @@
    <script src="js/knockout-3.4.1.js"></script>
    <script src="js/jquery-3.1.1.min.js"></script>
    <script src="js/script.js"></script>
-   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTWqTczhaT01yKIpp-qiRBM1-f3gBbF2w&v=3&callback=initMap">
+   <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTWqTczhaT01yKIpp-qiRBM1-f3gBbF2w&v=3&callback=initMap" onerror="erroralert()">
    
    </script>
  </body>
