@@ -1,0 +1,11 @@
+1. Download the zip folder and open the index.html file in your favourite browser.
+
+2. The neighbourhood map application opens. You can choose from any of the locations displayed in the map by clicking the marker  	 in the map.
+
+3. On clicking the marker, a small window opens displaying the information on the location from the foursquare website.
+
+4. A small button on the top left corner is available which when clicked opens a menu with the list of locations marked in the 	 	map.
+
+5. You can search the place you want in the search box. If the place is available, you will see the marker for that location in  	the map.
+
+6. On clicking the place in the list view, the corresponding marker bounces to notify the location and also opening the 		 	infowindow.  

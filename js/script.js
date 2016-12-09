@@ -9,7 +9,7 @@
             {title: 'Adyar Anandha Bhavan',location: {lat: 10.9592703,lng:78.0761873}}, 
             {title: 'NTS Palace',location: {lat: 10.961620,lng:78.064263}}, 
             {title: 'Hotel Valluvar',location: {lat: 10.9606905,lng:78.0759959}}
-  ];                                                 
+          ];                                                 
 
 // Global variables
 var map;
@@ -25,17 +25,19 @@ function initMap() {
        vm = new ViewModel();
        //Apply bindings
        ko.applyBindings(vm);
-  }
+}
+
+//ViewModel
 var ViewModel=function(){
-        "use strict";
-        var largeInfowindow = new google.maps.InfoWindow();
-        var bounds = new google.maps.LatLngBounds();
-        var self = this;
-        self.locations= ko.observableArray(favlocations);
-        //Input given by the user as search term.
-        self.searchterm = ko.observable('');
-        // Marker for all the locations in the locations array.
-        self.locations().forEach(function(loc){
+       "use strict";
+       var largeInfowindow = new google.maps.InfoWindow();
+       var bounds = new google.maps.LatLngBounds();
+       var self = this;
+       self.locations= ko.observableArray(favlocations);
+       //Input given by the user as search term.
+       self.searchterm = ko.observable('');
+       // Marker for all the locations in the locations array.
+       self.locations().forEach(function(loc){
             var marker = new google.maps.Marker({
             title:loc.title,
             position:loc.location,
@@ -48,34 +50,31 @@ var ViewModel=function(){
             //Add an event listener to open the Infowindow
             marker.addListener('click', function() {
             populateInfoWindow(this, largeInfowindow);
-          });
-        });
-        //Add the position to the bounds
-        for(var i=0;i<markers.length;i++) {
+            });
+       });
+       //Add the position to the bounds
+       for(var i=0;i<markers.length;i++) {
             bounds.extend(markers[i].getPosition());
-        }
-        //Set the center of the map to the center of all the bounds 
-        map.setCenter(bounds.getCenter());
-        // Fit the bounds of all the markers
-        map.fitBounds(bounds);
-        //Search Function
-        self.searchfunction = ko.computed(function(){
-         var search = self.searchterm();
+       }
+       //Set the center of the map to the center of all the bounds 
+       map.setCenter(bounds.getCenter());
+       // Fit the bounds of all the markers
+       map.fitBounds(bounds);
+       //Search Function
+       self.searchfunction = ko.computed(function(){
+       var search = self.searchterm();
          //Iterate through all the location in the array and find if the search location is available and set the corresponding marker as visible. 
          for (var i = 0; i < self.locations().length; i++) {
-            if (self.locations()[i].title.toLowerCase().indexOf(search)>=0) 
-                {
-                    self.locations()[i].updatelist(true);
-                    self.locations()[i].marker.setVisible(true);
-                }
-            else 
-                {
-                    self.locations()[i].updatelist(false);
-                    self.locations()[i].marker.setVisible(false);
-                }
-              }
-          });
-    
+            if (self.locations()[i].title.toLowerCase().indexOf(search)>=0){
+                self.locations()[i].updatelist(true);
+                self.locations()[i].marker.setVisible(true);
+            }
+            else{
+                self.locations()[i].updatelist(false);
+                self.locations()[i].marker.setVisible(false);
+            }
+          }
+       });    
     }
 
 //Function to execute when the user clicks the listview 
@@ -84,9 +83,9 @@ self.selectloc = function(loc){
         setTimeout(function () {
         loc.marker.setAnimation(null);
         }, 1400);
-    }
-
-
+        var largeInfowindow = new google.maps.InfoWindow();
+        populateInfoWindow(loc.marker,largeInfowindow);
+}
 
 // Function to open the InfoWindow onclick
 function populateInfoWindow(marker, infowindow) {
@@ -114,6 +113,10 @@ function populateInfoWindow(marker, infowindow) {
                                   //venue id is for making the second ajax request to foursquare to get the photos of that place. 
                                   var venue_id = data.response.venues[0].id;
                                   var address = data.response.venues[0].location.address;
+                                  if(address==undefined)
+                                  {
+                                    address="Currently not available."
+                                  }
                                   var counts = data.response.venues[0].stats.checkinsCount;
                                   //Second ajax request for fetching the photos.
                                   var secondurl = 'https://api.foursquare.com/v2/venues/' + venue_id +'/photos?client_id=' + client_id + '&client_secret=' + client_secret + '&v=20161129';
@@ -157,8 +160,8 @@ function populateInfoWindow(marker, infowindow) {
                         error: function () {
                                 infowindow.setContent('<div>Error Fetching Data</div>');
                                   }
-                        });
-        }
+                      });
+}
 
 //Function to display the error message
 function erroralert(){
